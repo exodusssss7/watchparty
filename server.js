@@ -73,7 +73,8 @@ io.on('connection', (socket) => {
       adminName: username,
       videoUrl: videoUrl,
       members: [{ id: socket.id, username, isAdmin: true }],
-      videoState: { playing: false, currentTime: 0, lastUpdate: Date.now() }
+      videoState: { playing: false, currentTime: 0, lastUpdate: Date.now() },
+      subCues: []
     };
     rooms.set(roomId, room);
     socket.join(roomId);
@@ -124,6 +125,7 @@ io.on('connection', (socket) => {
 
     // Send current video state so joiner syncs
     socket.emit('sync-video', room.videoState);
+    socket.emit('sync-subtitles', { subCues: room.subCues });
 
     console.log(`👤 ${username} joined room ${roomId}`);
   });
@@ -165,6 +167,21 @@ io.on('connection', (socket) => {
     room.videoState.currentTime = currentTime;
     room.videoState.lastUpdate = Date.now();
     socket.to(socket.roomId).emit('sync-video', room.videoState);
+  });
+
+  // Admin: action popup
+  socket.on('admin-action', ({ message }) => {
+    const room = rooms.get(socket.roomId);
+    if (!room || room.adminId !== socket.id) return;
+    socket.to(socket.roomId).emit('admin-action-popup', { message });
+  });
+
+  // Admin: subtitles
+  socket.on('change-subtitles', ({ subCues }) => {
+    const room = rooms.get(socket.roomId);
+    if (!room || room.adminId !== socket.id) return;
+    room.subCues = subCues;
+    io.to(socket.roomId).emit('sync-subtitles', { subCues });
   });
 
   // Chat message
