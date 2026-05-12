@@ -1,118 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Watch movies together with friends in real-time. Synced playback, live chat, and party vibes.">
-  <title>WatchParty — Watch Together</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div class="bg-glow"></div>
+  <head>
+    <meta charset="utf-8" />
+    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>watchparty-app</title>
+    <!-- The `react-native-web` recommended style reset: https://necolas.github.io/react-native-web/docs/setup/#root-element -->
+    <style id="expo-reset">
+      /* These styles make the body full-height */
+      html,
+      body {
+        height: 100%;
+      }
+      /* These styles disable body scrolling if you are using <ScrollView> */
+      body {
+        overflow: hidden;
+      }
+      /* These styles make the root element full-height */
+      #root {
+        display: flex;
+        height: 100%;
+        flex: 1;
+      }
+    </style>
+  <link rel="icon" href="/favicon.ico" /></head>
 
-  <!-- ═══ LANDING ═══ -->
-  <section id="landing">
-    <div class="logo">
-      <div class="logo-icon">🎬</div>
-      <div class="logo-text">Watch<span>Party</span></div>
-    </div>
-    <p class="tagline">Paste any movie link, invite your crew, and watch together — perfectly synced with live chat.</p>
-    <div class="cards">
-      <div class="action-card" id="btn-create-open">
-        <div class="card-icon">🚀</div>
-        <h3>Create a Party</h3>
-        <p>Host a watch session. You control playback — everyone stays in sync with you.</p>
-      </div>
-      <div class="action-card" id="btn-join-open">
-        <div class="card-icon">🎟️</div>
-        <h3>Join a Party</h3>
-        <p>Enter a room code to hop in. Watch together, chat together, vibe together.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ CREATE MODAL ═══ -->
-  <div class="modal-overlay" id="modal-create">
-    <div class="modal">
-      <button class="modal-close" onclick="closeModals()">✕</button>
-      <h2>🚀 Create Party</h2>
-      <div class="error-text" id="create-error"></div>
-      <label>Your Name</label>
-      <input type="text" id="create-name" placeholder="e.g. MovieBuff42" maxlength="20">
-      <label>Video URL (optional — add later)</label>
-      <input type="text" id="create-url" placeholder="https://example.com/movie.mp4">
-      <button class="btn" id="btn-create">Create Room</button>
-    </div>
-  </div>
-
-  <!-- ═══ JOIN MODAL ═══ -->
-  <div class="modal-overlay" id="modal-join">
-    <div class="modal">
-      <button class="modal-close" onclick="closeModals()">✕</button>
-      <h2>🎟️ Join Party</h2>
-      <div class="error-text" id="join-error"></div>
-      <label>Your Name</label>
-      <input type="text" id="join-name" placeholder="e.g. ChillWatcher" maxlength="20">
-      <label>Room Code</label>
-      <input type="text" id="join-code" placeholder="e.g. A1B2C3D4" maxlength="8" style="text-transform:uppercase">
-      <button class="btn" id="btn-join">Join Room</button>
-    </div>
-  </div>
-
-  <!-- ═══ ROOM VIEW ═══ -->
-  <section id="room">
-    <div class="room-topbar">
-      <div class="room-info">
-        <div class="room-logo">Watch<span>Party</span></div>
-        <div class="room-code" id="room-code" title="Click to copy">
-          <span id="room-code-text"></span>
-          <span class="copy-hint">📋 copy</span>
-        </div>
-        <div class="room-badge" id="role-badge"></div>
-        <div class="members-count" id="members-toggle" style="cursor:pointer">
-          👥 <span id="member-count">1</span>
-        </div>
-      </div>
-      <div class="topbar-actions">
-        <button class="icon-btn active" id="btn-toggle-chat" title="Toggle Chat">💬</button>
-        <button class="icon-btn" id="btn-leave" title="Leave Room">🚪</button>
-      </div>
-    </div>
-
-    <div class="members-panel" id="members-panel">
-      <h4>Party Members</h4>
-      <div id="members-list"></div>
-    </div>
-
-    <div class="room-body">
-      <div class="video-area">
-        <div class="sync-indicator" id="sync-indicator">
-          <div class="sync-dot"></div> SYNCED
-        </div>
-        <div class="video-container" id="video-container">
-          <div class="video-placeholder" id="video-placeholder">
-            <div class="ph-icon">🎬</div>
-            <div>Paste a video URL below to start watching</div>
-          </div>
-        </div>
-        <div class="url-bar" id="url-bar">
-          <input type="text" id="video-url-input" placeholder="Paste any link — Cineby, Vidsrc, YouTube, direct .mp4...">
-          <button id="btn-load-video">▶ Load</button>
-        </div>
-      </div>
-
-      <div class="chat-panel" id="chat-panel">
-        <div class="chat-header">💬 Party Chat</div>
-        <div class="chat-messages" id="chat-messages"></div>
-        <div class="chat-input-area">
-          <input type="text" id="chat-input" placeholder="Say something..." maxlength="500">
-          <button id="btn-send-chat">➤</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="app.js"></script>
+  <body>
+    <!-- Use static rendering with Expo Router to support running without JavaScript. -->
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
+    <!-- The root element for your Expo app. -->
+    <div id="root"></div>
+  <script src="/_expo/static/js/web/index-11549cf688ab59301156f2bead651e61.js" defer></script>
 </body>
 </html>
